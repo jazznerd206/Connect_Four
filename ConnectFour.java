@@ -65,13 +65,13 @@ class ConnectFour {
     public boolean validateBoard(int r, int c, int player) {
         int horizontal = checkHorizontal(r, c, player);
         int vertical = checkVertical(r, c, player);
-        int leftDiagonal = 0;
-        int rightDiagonal = 0;
+        int toBottomRightDiagonal = toBottomRight(r, c, player);
+        int toTopRightDiagonal = toTopRight(r, c, player);
         System.out.println("H: " + horizontal);
         System.out.println("V: " + vertical);
-        System.out.println("LD: " + leftDiagonal);
-        System.out.println("RD: " + rightDiagonal);
-        if (horizontal >= 4 || vertical >= 4)
+        System.out.println("LD: " + toBottomRightDiagonal);
+        System.out.println("RD: " + toTopRightDiagonal);
+        if (horizontal >= 4 || vertical >= 4 || toBottomRightDiagonal >= 4 || toTopRightDiagonal >= 4)
             return true;
         return false;
     }
@@ -114,13 +114,42 @@ class ConnectFour {
         return count;
     }
 
-    public int leftDiagonal(int r, int c, int player) {
+    public int toBottomRight(int r, int c, int player) {
         int count = 0;
+        // r is the row of the last played position
+        // c is the column of the last played position
+        // player is the current player number (1 or 2)
+        int i = r;
+        int j = c;
+        // to get all matching indices up and left: decrement rows, decrement columns
+        while (i >= 0 && j >= 0) {
+            if (this.board[i][j] == player) {
+                count++;
+                i--;
+                i--;
+            }
+        }
+        int m = r + 1;
+        int n = c + 1;
+        while (i >= 0 && j >= 0) {
+            if (this.board[m][n] == player) {
+                count++;
+                i++;
+                i++;
+            }
+        }
+        // to get all matching indices below and right: increment rows, increment
+        // columns
         return count;
     }
 
-    public int rightDiagonal(int r, int c, int player) {
+    public int toTopRight(int r, int c, int player) {
         int count = 0;
+        // r is the row of the last played position
+        // c is the column of the last played position
+        // player is the current player number (1 or 2)
+        // to get all matching indices below and left: increment rows, decrement columns
+        // to get all matching indices up and right: decrement rows, increment columns
         return count;
     }
 
