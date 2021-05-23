@@ -3,31 +3,32 @@ import java.util.ArrayList;
 
 class ConnectFour {
 
-    String title;
+    String player1;
+    String player2;
+    String winner;
     int[][] board;
     ArrayList<Integer> l;
     int plays;
-    int player;
-    boolean won;
     int rows;
     int columns;
-    String player1;
-    String player2;
+    boolean won;
 
     public ConnectFour(int r, int c, String p1, String p2) {
-        this.l = new ArrayList<Integer>();
-        this.board = new int[r][c];
-        this.rows = r;
-        this.columns = c;
-        this.plays = 0;
-        this.won = false;
         this.player1 = p1;
         this.player2 = p2;
+        this.winner = "";
+        this.board = new int[r][c];
+        this.l = new ArrayList<Integer>();
+        this.plays = 0;
+        this.rows = r;
+        this.columns = c;
+        this.won = false;
     }
 
     public void play(int value) {
         System.out.println("You chose column " + value + ".");
-        // VALIDATION
+
+        // GUESS VALIDATION
         if (!checkGuess(this.board, value)) {
             System.out.println("Guess is out of range. Must be between 0 and " + Integer.toString(columns - 1) + ".");
             return;
@@ -49,7 +50,7 @@ class ConnectFour {
             if (this.board[i][value] == 0) {
                 this.board[i][value] = player;
                 if (validateBoard(i, value, player)) {
-                    System.out.println("Win validation. If i see this, something has gone seriously wrong.");
+                    this.winner = this.plays % 2 == 0 ? this.player2 : this.player1;
                     this.won = true;
                 }
                 return;
@@ -62,8 +63,6 @@ class ConnectFour {
                 this.l.add((Integer) value);
             }
         }
-        String name = this.plays % 2 == 0 ? this.player2 : this.player1;
-        System.out.println("Up next: " + name);
     }
 
     public boolean validateBoard(int r, int c, int player) {
@@ -218,7 +217,7 @@ class ConnectFour {
             c4.play(p);
             c4.printBoard();
         }
-        System.out.println("Game over.");
+        System.out.println("Game over. Winner is " + c4.winner + ".");
         s.close();
         scanner.close();
     }
