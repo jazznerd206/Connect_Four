@@ -10,7 +10,6 @@ class ConnectFour {
     int plays;
     int rows;
     int columns;
-    boolean won;
 
     public ConnectFour(int r, int c, String p1, String p2) {
         this.player1 = p1;
@@ -21,43 +20,35 @@ class ConnectFour {
         this.plays = 0;
         this.rows = r;
         this.columns = c;
-        this.won = false;
     }
 
     public void play(int value) {
-        System.out.println("You chose column " + value + ".");
 
-        // GUESS VALIDATION
-        if (!checkGuess(this.board, value)) {
+        if (value < 0 || value >= columns) {
             System.out.println("Guess is out of range. Must be between 0 and " + Integer.toString(columns - 1) + ".");
             return;
         }
-        System.out.println("List: " + this.l);
         if (l.contains((Integer) value)) {
             System.out.println("Row " + value + " is full.");
             return;
         }
 
-        // PLAY COUNT / SET PLAYER
         this.plays++;
         int player = this.plays % 2 == 0 ? 2 : 1;
         int count = 0;
         int i = rows - 1;
 
-        // Check bottom of row, move up if full
         while (i >= 0) {
             if (this.board[i][value] == 0) {
                 this.board[i][value] = player;
                 if (validateBoard(i, value, player)) {
                     this.winner = this.plays % 2 == 0 ? this.player2 : this.player1;
-                    this.won = true;
                 }
                 return;
             } else {
                 count++;
                 i--;
             }
-            // if row if full, add to full list
             if (count == rows - 1) {
                 this.l.add((Integer) value);
             }
@@ -77,7 +68,6 @@ class ConnectFour {
     public int checkHorizontal(int r, int c, int player) {
         int count = 0;
         for (int i = c; i < columns; i++) {
-            // same row, col++
             if (this.board[r][i] == player) {
                 count++;
             } else {
@@ -85,7 +75,6 @@ class ConnectFour {
             }
         }
         for (int i = c - 1; i >= 0; i--) {
-            // move over one column so we don't double count, col--
             if (this.board[r][i] == player) {
                 count++;
             } else {
@@ -98,7 +87,6 @@ class ConnectFour {
     public int checkVertical(int r, int c, int player) {
         int count = 0;
         for (int i = r; i < rows; i++) {
-            // same col, row++
             if (this.board[i][c] == player) {
                 count++;
             } else {
@@ -106,7 +94,6 @@ class ConnectFour {
             }
         }
         for (int i = r - 1; i >= 0; i--) {
-            // move over one row so we don't double count, row--
             if (this.board[i][c] == player) {
                 count++;
             } else {
@@ -120,7 +107,6 @@ class ConnectFour {
         int count = 0;
         int i = r;
         int j = c;
-        // to get all matching indices up and left: decrement rows, decrement columns
         while (i >= 0 && j >= 0) {
             if (this.board[i][j] == player) {
                 count++;
@@ -130,8 +116,6 @@ class ConnectFour {
                 break;
             }
         }
-        // to get all matching indices up and right: increment rows, increment columns
-        // move the pointer right and down one so we don't double count
         int m = r + 1;
         int n = c + 1;
         while (m < rows && i < columns) {
@@ -148,7 +132,6 @@ class ConnectFour {
 
     public int toTopRight(int r, int c, int player) {
         int count = 0;
-        // to get all matching indices below and left: increment rows, decrement columns
         int i = r;
         int j = c;
         while (i < rows && j >= 0) {
@@ -160,8 +143,6 @@ class ConnectFour {
                 break;
             }
         }
-        // to get all matching indices up and right: decrement rows, increment columns
-        // move the pointers up and right so we don't double count
         int m = r - 1;
         int n = c + 1;
         while (m >= 0 && n < columns) {
@@ -174,13 +155,6 @@ class ConnectFour {
             }
         }
         return count;
-    }
-
-    public boolean checkGuess(int[][] b, int guess) {
-        if (guess < 0 || guess >= b[0].length) {
-            return false;
-        }
-        return true;
     }
 
     public void printBoard() {
@@ -206,7 +180,7 @@ class ConnectFour {
         String p2 = scanner.nextLine();
         ConnectFour c4 = new ConnectFour(6, 7, p1, p2);
         c4.printBoard();
-        while (c4.won == false) {
+        while (c4.winner == "") {
             System.out.println("Choose a column.");
             int p = s.nextInt();
             c4.play(p);
