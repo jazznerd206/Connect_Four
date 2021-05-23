@@ -18,6 +18,7 @@ class ConnectFour {
     }
 
     public void play(int value) {
+        int count = 0;
         this.plays++;
         int player = this.plays % 2 == 0 ? 2 : 1;
         System.out.println("Drop it like it's hot.");
@@ -26,14 +27,14 @@ class ConnectFour {
         System.out.println("Board value: " + this.board[rows - 1][value]);
         for (int i = rows - 1; i >= 0; i--) {
             if (this.board[i][value] == 0) {
-                System.out.println("EQUALS ZERO");
                 this.board[i][value] = player;
                 break;
             } else {
-                System.out.println("This row is full.");
+                count++;
             }
+            if (count == rows - 1)
+                System.out.println("This row is full.");
         }
-        // this.printBoard();
     }
 
     public boolean checkGuess(int[][] b, int guess) {
