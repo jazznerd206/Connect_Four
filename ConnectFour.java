@@ -174,9 +174,9 @@ class ConnectFour {
         Scanner scanner = new Scanner(System.in);
         Scanner s = new Scanner(System.in);
         System.out.println("Connect Four");
-        System.out.println("Player 1:");
+        System.out.println("Player 1 ->");
         String p1 = scanner.nextLine();
-        System.out.println("Player 2:");
+        System.out.println("Player 2 ->");
         String p2 = scanner.nextLine();
         ConnectFour c4 = new ConnectFour(6, 7, p1, p2);
         c4.printBoard();
