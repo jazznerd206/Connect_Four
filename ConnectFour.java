@@ -4,6 +4,7 @@ class ConnectFour {
 
     int[][] board;
     int plays;
+    int player;
     boolean won;
     int rows;
     int columns;
@@ -16,24 +17,30 @@ class ConnectFour {
         this.won = false;
     }
 
-    public void play(int player) {
-        int choice = Integer.MAX_VALUE;
-        player = 1;
-        if (player == 2)
-            player = 2;
+    public void play(int value) {
+        this.plays++;
+        int player = this.plays % 2 == 0 ? 2 : 1;
         System.out.println("Drop it like it's hot.");
-        System.out.println("Please choose a column to drop your token into.");
-        Scanner s = new Scanner(System.in);
-        choice = s.nextInt();
-        s.close();
-        System.out.println("You chose " + choice);
-        System.out.println(this.board[rows - 1][choice]);
-        System.out.println(player);
-        if (this.board[rows - 1][choice] == 0)
-            this.board[rows - 1][choice] = player;
-        // else {
-        // // go up until you find an empty spot
-        // }
+        System.out.println("Plays: " + this.plays);
+        System.out.println("You chose " + value);
+        System.out.println("Board value: " + this.board[rows - 1][value]);
+        for (int i = rows - 1; i >= 0; i--) {
+            if (this.board[i][value] == 0) {
+                System.out.println("EQUALS ZERO");
+                this.board[i][value] = player;
+                break;
+            } else {
+                System.out.println("This row is full.");
+            }
+        }
+        // this.printBoard();
+    }
+
+    public boolean checkGuess(int[][] b, int guess) {
+        if (guess < 0 || guess > b[0].length) {
+            return false;
+        }
+        return true;
     }
 
     public void printBoard() {
@@ -49,7 +56,12 @@ class ConnectFour {
         System.out.println("Connect Four");
         ConnectFour c4 = new ConnectFour(6, 7);
         c4.printBoard();
-        c4.play(1);
-        c4.printBoard();
+        while (c4.won == false) {
+            System.out.println("Choose a column beotch.");
+            Scanner s = new Scanner(System.in);
+            int p = s.nextInt();
+            c4.play(p);
+            c4.printBoard();
+        }
     }
 }
