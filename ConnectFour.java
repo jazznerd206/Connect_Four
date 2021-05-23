@@ -2,7 +2,6 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 class ConnectFour {
-
     String player1;
     String player2;
     String winner;
@@ -70,10 +69,6 @@ class ConnectFour {
         int vertical = checkVertical(r, c, player);
         int toBottomRightDiagonal = toBottomRight(r, c, player);
         int toTopRightDiagonal = toTopRight(r, c, player);
-        // System.out.println("H: " + horizontal);
-        // System.out.println("V: " + vertical);
-        // System.out.println("LD: " + toBottomRightDiagonal);
-        // System.out.println("RD: " + toTopRightDiagonal);
         if (horizontal >= 4 || vertical >= 4 || toBottomRightDiagonal >= 4 || toTopRightDiagonal >= 4)
             return true;
         return false;
